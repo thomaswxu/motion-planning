@@ -25,6 +25,9 @@ The code in this repository assumes a generic 6 DOF robot arm (arm model determi
 
 Various unit tests are provided for the libraries in this repository. They currently use the Catch2 framework for C++ code.
 
+## Note on Code Format
+The code mainly follows the Google code style guidelines. Max characters per line are limited to 120.
+
 ## License
 
 Feel free to use or modify the code in this repository as you wish (MIT license).

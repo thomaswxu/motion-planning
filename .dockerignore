@@ -1,0 +1,7 @@
+.git
+*.md
+.vscode
+
+LICENSE
+Dockerfile
+docker-compose.yaml

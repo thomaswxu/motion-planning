@@ -11,7 +11,21 @@ The code in this repository assumes a generic 6 DOF robot arm (arm model determi
 
 ### Set Up Environment
 
-1. TODO
+1. Install `docker` and `docker-compose`
+    - e.g. in Arch-based distros: `yay -S docker docker-compose`
+    - Be sure to `enable` and `start` the Docker daemon
+        - e.g. `systemctl enable docker.service && systemctl start docker.service`
+2. Build the Docker image:
+    - `sudo docker build -f Dockerfile -t motion-planning:latest .`
+3. Start the container:
+    - Create new container and start: `sudo docker compose -f docker-compose.yaml up -d`
+    - Start existing container: `sudo docker compose -f docker-compose.yaml start`
+4. Enter the container:
+    - `sudo docker compose exec motion-planning bash`
+
+When finished, either `stop` the container (which will allow it to be reused later with `start`) or `down` the container, which will stop and remove the container:
+- `sudo docker compose -f docker-compose.yaml stop`
+- `sudo docker compose -f docker-compose.yaml down`
 
 ### Run an Example
 

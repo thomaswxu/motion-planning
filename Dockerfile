@@ -1,9 +1,8 @@
+FROM ubuntu:22.04
+
 LABEL description="Simple Linux image with required packages."
 LABEL version="1.0"
 LABEL maintainer="TWX"
-
-# Base Image
-FROM ubuntu:22.04
 
 # Install Required Packages
 RUN apt-get update && \

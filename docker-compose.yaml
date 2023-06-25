@@ -1,0 +1,4 @@
+services:
+  motion-planning:
+    image: "motion-planning:latest"
+    tty: true

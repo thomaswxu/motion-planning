@@ -1,4 +1,8 @@
 services:
   motion-planning:
     image: "motion-planning:latest"
+    volumes:
+      - type: bind
+        source: ./
+        target: /motion-planning
     tty: true

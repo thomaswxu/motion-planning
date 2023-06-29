@@ -6,7 +6,7 @@ LABEL maintainer="TWX"
 
 # Install Required Packages
 RUN apt-get update && \
-    apt-get install -y g++ cmake make git && \
+    apt-get install -y g++ cmake make git vim && \
     apt-get clean
 
 # Install Unit Testing Framework
@@ -19,5 +19,3 @@ RUN git clone https://github.com/catchorg/Catch2.git && \
     rm -rf Catch2
 
 WORKDIR /motion-planning
-
-COPY . .

@@ -29,7 +29,8 @@ When finished, either `stop` the container (which will allow it to be reused lat
 
 ### Run an Example
 
-1. TODO
+1. If not already inside, enter Docker container (see steps [above](#set-up-environment)).
+2. TODO
 
 ### Visualize Results
 

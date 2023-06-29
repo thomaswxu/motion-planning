@@ -9,3 +9,5 @@ add_library(Vec3 vec3.cpp vec3.hpp)
 
 add_executable(Vec3Test vec3_test.cpp)
 target_link_libraries(Vec3Test PUBLIC Vec3 Catch2::Catch2WithMain)
+
+add_library(Edge edge.cpp edge.hpp)

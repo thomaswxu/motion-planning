@@ -4,4 +4,8 @@
 TEST_CASE("asdf", "[asdf]")
 {
   REQUIRE(1==1);
+
+  SECTION("asdf section") {
+    REQUIRE(1==1);
+  }
 }

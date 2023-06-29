@@ -60,9 +60,9 @@ Vec3 Vec3::Moved(const Vec3& direction, float factor) const
 bool Vec3::operator==(const Vec3& vec) const
 {
   float epsilon = 0.0001;
-  return std::abs(x_ - vec.x() < epsilon) &&
-         std::abs(y_ - vec.y() < epsilon) &&
-         std::abs(z_ - vec.z() < epsilon);
+  return std::abs(x_ - vec.x()) < epsilon &&
+         std::abs(y_ - vec.y()) < epsilon &&
+         std::abs(z_ - vec.z()) < epsilon;
 }
 
 bool Vec3::operator!=(const Vec3& vec) const

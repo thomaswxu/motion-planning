@@ -8,7 +8,6 @@
 class Edge
 {
 public:
-  Edge() {}
   Edge(const Vec3& start_point, const Vec3& end_point);
   
   /** Return a point extended beyond the start point (extending the edge).*/
@@ -39,8 +38,8 @@ private:
   /** Get the shortest distance to another edge (assumed not parallel).*/
   float DistToNonParallelEdge(const Edge& edge) const;
 
-  Vec3 start_point_;
-  Vec3 end_point_;
-  float length_;
-  Vec3 vec_; // Vector from start to end
+  const Vec3 start_point_;
+  const Vec3 end_point_;
+  const float length_;
+  const Vec3 vec_; // Vector from start to end
 };

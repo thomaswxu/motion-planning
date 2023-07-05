@@ -11,3 +11,7 @@ add_executable(Vec3Test vec3_test.cpp)
 target_link_libraries(Vec3Test PUBLIC Vec3 Catch2::Catch2WithMain)
 
 add_library(Edge edge.cpp edge.hpp)
+target_link_libraries(Edge PUBLIC Vec3)
+
+add_executable(EdgeTest edge_test.cpp)
+target_link_libraries(EdgeTest PUBLIC Edge Catch2::Catch2WithMain)

@@ -1,5 +1,14 @@
 #include "edge.hpp"
 
+#include <iostream>
+
+Edge::Edge(const Vec3& start_point, const Vec3& end_point)
+    : start_point_(start_point),
+      end_point_(end_point),
+      vec_(end_point - start_point),
+      length_((end_point - start_point).Norm())
+{}
+
 Vec3 Edge::ExtendedStart(float dist) const
 {
   Vec3 normalized_vec = vec_.Normalized();
@@ -39,7 +48,7 @@ float Edge::DistToParallelEdge(const Edge& edge) const
 
   // Unscaled projection distances
   float proj_dist_start = vec().Dot(edge.start_point() - start_point_);
-  float proj_dist_end = vec().Dot(edge.end_point() - end_point_);
+  float proj_dist_end = vec().Dot(edge.end_point() - start_point_);
 
   bool other_edge_comes_before = proj_dist_start <= 0 && proj_dist_end <= 0;
   bool other_edge_comes_after = proj_dist_start >= length_ * length_ && proj_dist_end >= length_ * length_;

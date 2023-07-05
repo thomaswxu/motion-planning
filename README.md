@@ -51,7 +51,7 @@ Various unit tests are provided for the libraries in this repository. They curre
 To run the unit tests:
   1. Compile the code (e.g. by following the steps [above](#run-an-example).)
   2. Navigate to the `build` directory.
-  3. Run any of the unit test executables, e.g. `vec3_test`.
+  3. Run any of the unit test executables, e.g. `Vec3Test`.
 
 ## Note on Code Format
 The code mainly follows the Google code style guidelines. Max characters per line are limited to 120.

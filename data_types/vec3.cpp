@@ -57,6 +57,11 @@ Vec3 Vec3::Moved(const Vec3& direction, float factor) const
               z_ + factor * direction.z());
 }
 
+Vec3 Vec3::Inverse() const
+{
+  return Vec3(1.0 / x_, 1.0 / y_, 1.0 / z_);
+}
+
 bool Vec3::operator==(const Vec3& vec) const
 {
   float epsilon = 0.0001;

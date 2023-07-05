@@ -1,5 +1,9 @@
 #include "vec3.hpp"
+
+#include <cmath>
+
 #include <catch2/catch_test_macros.hpp>
+
 
 TEST_CASE("Operators work", "[operators]")
 {
@@ -27,4 +31,13 @@ TEST_CASE("Distance calculations work", "[distance]")
   REQUIRE(Vec3(0, 0, 0).DistTo(Vec3(1, 0, 0)) - 1 < epsilon);
   REQUIRE(Vec3(0, 0, 0).DistTo(Vec3(0, 0, 0)) - 0 < epsilon);
   REQUIRE(Vec3(1, 2, 3).DistTo(Vec3(10, 3, -6)) - 12.7671 < epsilon);
+}
+
+TEST_CASE("Inverse calculations work", "[inverse]")
+{
+  REQUIRE(Vec3(1, 1, 2).Inverse() == Vec3(1, 1, 0.5));
+  Vec3 inf_vec = Vec3(0, 0, 0).Inverse();
+  REQUIRE(std::isinf(inf_vec.x()));
+  REQUIRE(std::isinf(inf_vec.y()));
+  REQUIRE(std::isinf(inf_vec.z()));
 }

@@ -11,9 +11,36 @@ public:
   Edge() {}
   Edge(const Vec3& start_point, const Vec3& end_point);
   
+  /** Return a point extended beyond the start point (extending the edge).*/
+  Vec3 ExtendedStart(float dist) const;
+
+  /** Return a point extended from the end point.*/
+  Vec3 ExtendedEnd(float dist) const;
+
+  /**
+   * Get an intermediate (or extrapolated) point on the edge.
+   * @param dist Distance from start point.
+   */
+  Vec3 IntermediatePoint(float dist) const;
+
+  /** Return the shortest distance to another edge.*/
+  float DistTo(const Edge& edge) const;
+
+  inline Vec3 start_point() const { return start_point_; }
+  inline Vec3 end_point() const { return end_point_; }
+  inline float length() const { return length_; }
+  inline Vec3 vec() const { return vec_; }
+
 private:
+
+  /** Get the shortest distance to another edge (assumed parallel).*/
+  float DistToParallelEdge(const Edge& edge) const;
+
+  /** Get the shortest distance to another edge (assumed not parallel).*/
+  float DistToNonParallelEdge(const Edge& edge) const;
+
   Vec3 start_point_;
   Vec3 end_point_;
   float length_;
-  Vec3 vec_;
+  Vec3 vec_; // Vector from start to end
 };

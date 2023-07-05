@@ -41,6 +41,9 @@ public:
   /** Intepreting as a point, move this point in a given direction by some scale factor.*/
   Vec3 Moved(const Vec3& direction, float factor) const;
 
+  /** Get the inverse (element-wise reciprocal) of the vector.*/
+  Vec3 Inverse() const;
+
   inline float x() const { return x_; }
   inline float y() const { return y_; }
   inline float z() const { return z_; }

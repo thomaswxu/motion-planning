@@ -4,8 +4,6 @@
 #include <limits>
 #include <stdexcept>
 
-#include "pose_points.hpp"
-
 const float Obstacle::kJointStep_deg = 10.0;
 
 Obstacle::Obstacle(float min_x, float max_x, float min_y, float max_y, float min_z, float max_z)
@@ -48,13 +46,22 @@ bool Obstacle::PoseIsInside(const Pose& pose, const ArmDimensions& arm_dims) con
 {
   PosePoints pose_points(pose, arm_dims); // Note: better to precompute this if there are many obstacles to check.
   std::vector<Vec3> edge_inv_vecs = pose_points.ArmEdgeInverseVectors(); // Also best to precompute these.
+  return PoseIsInside(pose_points, edge_inv_vecs, arm_dims);
+}
+
+bool Obstacle::PoseIsInside(const PosePoints& pose_points, const std::vector<Vec3>& arm_edge_inverse_vectors,
+                            const ArmDimensions& arm_dims) const
+{
+  if (pose_points.arm_edges().size() != arm_edge_inverse_vectors.size()) {
+    throw std::runtime_error("Obstacle: Mismatched sizes of pose points and arm edge inverse vectors.");
+  }
 
   int arm_edge_num = 0;
   for (const Edge& arm_edge : pose_points.arm_edges()) {
     // Using raytracing slab method; see this for details: https://tavianator.com/2022/ray_box_boundary.html
     float t_min = -std::numeric_limits<float>::infinity();
     float t_max =  std::numeric_limits<float>::infinity();
-    Vec3 edge_inv_vec = edge_inv_vecs[arm_edge_num];
+    Vec3 edge_inv_vec = arm_edge_inverse_vectors[arm_edge_num];
 
     for (int dimension = 0; dimension < 3; dimension++) {
       float t1 =
@@ -91,7 +98,17 @@ bool Obstacle::PoseIsInside(const Pose& pose, const ArmDimensions& arm_dims) con
   return false;
 }
 
-bool Obstacle::PoseEdgeIsInside(const Pose& pose1, const Pose& pose2, const ArmDimensions& arm_dims) const
+bool Obstacle::PoseEdgeIsInside(const std::vector<Pose>& poses, const std::vector<PosePoints>& all_pose_points,
+                                const std::vector<std::vector<Vec3>>& all_poses_inverse_vectors,
+                                const ArmDimensions& arm_dims) const
 {
+  if (all_pose_points.size() != all_poses_inverse_vectors.size()) {
+    throw std::runtime_error("Obstacle: Mismatched number of pose points and sets of arm edge inverse vectors.");
+  }
+  for (int i = 0; i < all_pose_points.size(); i++) {
+    if (PoseIsInside(all_pose_points[i], all_poses_inverse_vectors[i], arm_dims)) {
+      return true;
+    }
+  }
   return false;
 }

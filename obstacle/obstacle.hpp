@@ -3,9 +3,12 @@
  */
 #pragma once
 
+#include <vector>
+
 #include "arm_dimensions.hpp"
 #include "edge.hpp"
 #include "pose.hpp"
+#include "pose_points.hpp"
 #include "vec3.hpp"
 
 class Obstacle
@@ -25,9 +28,14 @@ public:
 
   /** Detect whether a given arm pose is inside or touches the obstacle.*/
   bool PoseIsInside(const Pose& pose, const ArmDimensions& arm_dims) const;
+  /** Overload that makes use of precomputed pose points and inverse vectors.*/
+  bool PoseIsInside(const PosePoints& pose_points, const std::vector<Vec3>& arm_edge_inverse_vectors,
+                    const ArmDimensions& arm_dims) const;
 
-  /** Detect whether the path between two arm poses (assuming uniform/constant joint velocities) touches the obstacle.*/
-  bool PoseEdgeIsInside(const Pose& pose1, const Pose& pose2, const ArmDimensions& arm_dims) const;
+  /** Detect whether the a pose path (assuming uniform/constant joint velocities) touches the obstacle.*/
+  bool PoseEdgeIsInside(const std::vector<Pose>& poses, const std::vector<PosePoints>& all_pose_points,
+                        const std::vector<std::vector<Vec3>>& all_poses_inverse_vectors,
+                        const ArmDimensions& arm_dims) const;
 
   /** Get the distance to a given point.*/
   float DistToPoint(const Vec3& point) const;

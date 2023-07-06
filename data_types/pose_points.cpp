@@ -7,6 +7,15 @@ PosePoints::PosePoints(const Pose& pose, const ArmDimensions& arm_dimensions)
   CalcArmEdges();
 }
 
+std::vector<Vec3> PosePoints::ArmEdgeInverseVectors() const
+{
+  std::vector<Vec3> inv_vecs;
+  for (const Edge& arm_edge : arm_edges_) {
+    inv_vecs.push_back(arm_edge.vec().Inverse());
+  }
+  return inv_vecs;
+}
+
 void PosePoints::CalcArmPoints()
 {
   if (!arm_points_.empty()) {

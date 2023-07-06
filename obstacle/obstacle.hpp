@@ -29,6 +29,12 @@ public:
   /** Detect whether the path between two arm poses (assuming uniform/constant joint velocities) touches the obstacle.*/
   bool PoseEdgeIsInside(const Pose& pose1, const Pose& pose2, const ArmDimensions& arm_dims) const;
 
+  /** Get the distance to a given point.*/
+  float DistToPoint(const Vec3& point) const;
+
+  /** Get the distance to a given edge.*/
+  float DistTOEdge(const Edge& edge) const;
+
   static const float kJointStep_deg; // Could be a config parameter or passed in as an argument, if desired.
 
 private:

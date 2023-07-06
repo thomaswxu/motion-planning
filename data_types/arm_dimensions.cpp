@@ -19,7 +19,5 @@ ArmDimensions::ArmDimensions(const std::string& config_file)
   L6_mm = dimension_data["L6_mm"];
   L7_mm = dimension_data["L7_mm"];
   L_radius_mm = dimension_data["L_radius_mm"];
-
   EE_length_mm = dimension_data["EE"]["length_mm"];
-  EE_radius_mm = dimension_data["EE"]["radius_mm"];
 }

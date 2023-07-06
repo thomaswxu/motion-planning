@@ -17,6 +17,9 @@ class PosePoints
 public:
   PosePoints(const Pose& pose, const ArmDimensions& arm_dimensions);
 
+  /** Get the inverse vectors for each arm edge, in order.*/
+  std::vector<Vec3> ArmEdgeInverseVectors() const;
+
   inline std::vector<Vec3> arm_points() const { return arm_points_; }
   inline std::vector<Edge> arm_edges() const { return arm_edges_; }
 

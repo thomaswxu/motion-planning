@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "comment": "Arbitrary dimensions to give a reasonable robot arm shape. All links modelled as cylinder/pill shapes."
+    "comment": "Arbitrary dimensions to give a reasonable robot arm shape. All links modelled as cylinder/pill shapes. Assume all links (including end effector) have radius for simplicity."
   },
   "L1_mm": 245,
   "L2_mm": 215,
@@ -11,7 +11,6 @@
   "L7_mm": 160,
   "L_radius_mm": 85,
   "EE": {
-    "length_mm": 100,
-    "radius_mm": 85
+    "length_mm": 100
   }
 }

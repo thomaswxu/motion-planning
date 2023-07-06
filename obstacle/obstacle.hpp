@@ -10,6 +10,7 @@
 
 class Obstacle
 {
+public:
   Obstacle(float min_x, float max_x, float min_y, float max_y, float min_z, float max_z);
 
   /** Detect whether a given XYZ point is inside or touches the obstacle.*/

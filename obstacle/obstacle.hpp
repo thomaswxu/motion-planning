@@ -43,8 +43,6 @@ public:
   /** Get the distance to a given edge.*/
   float DistTOEdge(const Edge& edge) const;
 
-  static const float kJointStep_deg; // Could be a config parameter or passed in as an argument, if desired.
-
 private:
   const float min_x_;
   const float max_x_;

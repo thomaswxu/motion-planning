@@ -23,12 +23,12 @@ void PosePoints::CalcArmPoints()
   }
 
   // Redefine for convenience
-  float J1 = Deg2Rad(pose_.J1);
-  float J2 = Deg2Rad(pose_.J2);
-  float J3 = Deg2Rad(pose_.J3);
-  float J4 = Deg2Rad(pose_.J4);
-  float J5 = Deg2Rad(pose_.J5);
-  float J6 = Deg2Rad(pose_.J6);
+  float J1 = Deg2Rad(pose_.J1_deg);
+  float J2 = Deg2Rad(pose_.J2_deg);
+  float J3 = Deg2Rad(pose_.J3_deg);
+  float J4 = Deg2Rad(pose_.J4_deg);
+  float J5 = Deg2Rad(pose_.J5_deg);
+  float J6 = Deg2Rad(pose_.J6_deg);
   float L1 = arm_dimensions_.L1_mm;
   float L2 = arm_dimensions_.L2_mm;
   float L3 = arm_dimensions_.L3_mm;

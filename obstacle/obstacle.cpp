@@ -4,8 +4,6 @@
 #include <limits>
 #include <stdexcept>
 
-const float Obstacle::kJointStep_deg = 10.0;
-
 Obstacle::Obstacle(float min_x, float max_x, float min_y, float max_y, float min_z, float max_z)
     : min_x_(min_x), max_x_(max_x), min_y_(min_y), max_y_(max_y), min_z_(min_z), max_z_(max_z)
 {

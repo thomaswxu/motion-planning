@@ -4,6 +4,7 @@
  */
 #pragma once
 
+#include <cmath>
 #include <vector>
 
 #include "arm_dimensions.hpp"
@@ -14,15 +15,20 @@
 class PosePoints
 {
 public:
+  PosePoints(const Pose& pose, const ArmDimensions& arm_dimensions);
+
+  inline std::vector<Vec3> arm_points() const { return arm_points_; }
+  inline std::vector<Edge> arm_edges() const { return arm_edges_; }
+
+  static inline float Deg2Rad(float deg) { return deg / 180.0 * M_PI; };
 
 private:
+  void CalcArmPoints();
+  void CalcArmEdges();
+
   const Pose pose_;
-  // const ArmDimensions arm_dimensions_;
+  const ArmDimensions arm_dimensions_;
 
-  const std::vector<Vec3> joint_points_; // Each joint XYZ, in ascending order from arm base
-  const std::vector<Edge> joint_edges_;  // Each link as an edge, in ascending order from arm base
-
-  Edge EE_edge_;
-  float EE_length_mm_;
-  float EE_radius_mm_;
+  std::vector<Vec3> arm_points_; // Each joint XYZ and EE tip XYZ, in ascending order from arm base
+  std::vector<Edge> arm_edges_;  // Each link as an edge (incl. EE), in ascending order from arm base
 };

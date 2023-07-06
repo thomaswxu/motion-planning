@@ -19,4 +19,7 @@ public:
   float L6_mm;
   float L7_mm;
   float L_radius_mm;
+
+  float EE_length_mm;
+  float EE_radius_mm;
 };

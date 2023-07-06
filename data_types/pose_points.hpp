@@ -6,6 +6,7 @@
 
 #include <vector>
 
+#include "arm_dimensions.hpp"
 #include "edge.hpp"
 #include "pose.hpp"
 #include "vec3.hpp"

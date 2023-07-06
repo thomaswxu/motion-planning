@@ -6,8 +6,10 @@ LABEL maintainer="TWX"
 
 # Install Required Packages
 RUN apt-get update && \
-    apt-get install -y g++ cmake make git vim && \
+    apt-get install -y build-essential cmake git vim && \
     apt-get clean
+
+WORKDIR /motion-planning
 
 # Install Unit Testing Framework
 RUN git clone https://github.com/catchorg/Catch2.git && \
@@ -18,4 +20,7 @@ RUN git clone https://github.com/catchorg/Catch2.git && \
     cd .. && \
     rm -rf Catch2
 
-WORKDIR /motion-planning
+# Install JSON parser
+RUN git clone https://github.com/nlohmann/json.git && \
+    mv json/single_include/nlohmann /usr/include/ && \
+    rm -rf json

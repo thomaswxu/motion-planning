@@ -64,7 +64,7 @@ Vec3 Vec3::Inverse() const
 
 bool Vec3::operator==(const Vec3& vec) const
 {
-  float epsilon = 0.0001;
+  float epsilon = 0.001;
   return std::abs(x_ - vec.x()) < epsilon &&
          std::abs(y_ - vec.y()) < epsilon &&
          std::abs(z_ - vec.z()) < epsilon;

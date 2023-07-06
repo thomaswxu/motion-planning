@@ -37,13 +37,13 @@ void PosePoints::CalcArmPoints()
           P2.y() + L3*std::sin(J2)*std::cos(M_PI/2.0 - J1),
           P2.z() + L3*std::cos(J2));
   Vec3 P4(P3.x() - L4*std::cos(M_PI/2.0 - J1),
-          P3.y() + L4*std::cos(M_PI/2.0 - J1),
+          P3.y() + L4*std::sin(M_PI/2.0 - J1),
           P3.z());
   Vec3 P5(P4.x() + L5*std::cos(J3)*std::cos(J1),
           P4.y() + L5*std::cos(J3)*std::sin(J1),
           P4.z() + L5*std::sin(J3));
   Vec3 P6(P5.x() + L6*std::cos(J4)*std::sin(J1) - L6*std::sin(J4)*std::cos(M_PI/2.0 - J3)*std::cos(J1),
-          P5.y() + L6*std::cos(J4)*std::cos(J1) - L6*std::sin(J4)*std::cos(M_PI/2.0 - J3)*std::sin(J1),
+          P5.y() - L6*std::cos(J4)*std::cos(J1) - L6*std::sin(J4)*std::cos(M_PI/2.0 - J3)*std::sin(J1),
           P5.z() + L6*std::sin(J4)*std::sin(M_PI/2.0 - J3));
   Vec3 P_wrist(P6.x() + L7*std::cos(J5)*std::cos(J3)*std::cos(J1)
                       - L7*std::sin(J5)*std::cos(J4)*std::sin(J3)*std::cos(J1)

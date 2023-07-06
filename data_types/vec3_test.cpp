@@ -14,6 +14,7 @@ TEST_CASE("Operators work", "[operators]")
     REQUIRE(v1 != Vec3(0.7, 0.165, -0.45));
     REQUIRE(v1 != Vec3(0, 0, 0));
     REQUIRE(v1 != Vec3(1, 2, 3));
+    REQUIRE(Vec3(123.123, 456.456, -123.123) == Vec3(123.123, 456.456, -123.123));
   }
   SECTION("Addition") {
     REQUIRE(Vec3(1, 2, 3) + Vec3(1, 2, 3) == Vec3(2, 4, 6));

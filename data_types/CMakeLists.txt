@@ -22,7 +22,7 @@ add_executable(PoseTest pose_test.cpp)
 target_link_libraries(PoseTest PUBLIC Pose Catch2::Catch2WithMain)
 
 add_library(PosePoints pose_points.hpp pose_points.cpp)
-target_link_libraries(PosePoints PUBLIC Pose Vec3 Edge)
+target_link_libraries(PosePoints PUBLIC Pose ArmDimensions Vec3 Edge)
 
 add_executable(PosePointsTest pose_points_test.cpp)
 target_link_libraries(PosePointsTest PUBLIC PosePoints Catch2::Catch2WithMain)

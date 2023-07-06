@@ -26,6 +26,9 @@ public:
   /** Clear all parameters to default starting values.*/
   void Reset();
 
+  /** Get the current number of connected nodes.*/
+  inline int NumConnections() const { return connection_ids_.size(); }
+
   inline Pose pose() const { return pose_; }
   inline int id() const { return id_; }
   inline std::vector<int> connection_ids() const { return connection_ids_; }
@@ -40,7 +43,7 @@ public:
 private:
   Pose pose_;
   int id_ = -1;
-  std::vector<int> connection_ids_; // Connected nodes, ordered by distance, ascending.
+  std::vector<int> connection_ids_; // Connected nodes, should be ordered by distance, ascending.
 
   float distance_from_start_;
   int parent_id_ = -1;

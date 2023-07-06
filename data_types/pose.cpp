@@ -10,6 +10,16 @@ Pose::Pose(float j1_deg, float j2_deg, float j3_deg, float j4_deg, float j5_deg,
     : J1_deg(j1_deg), J2_deg(j2_deg), J3_deg(j3_deg), J4_deg(j4_deg), J5_deg(j5_deg), J6_deg(j6_deg)
 {}
 
+void Pose::Clear()
+{
+  J1_deg = 0.0;
+  J2_deg = 0.0;
+  J3_deg = 0.0;
+  J4_deg = 0.0;
+  J5_deg = 0.0;
+  J6_deg = 0.0;
+}
+
 float Pose::JointDistTo(const Pose& pose) const
 {
   return std::abs(pose.J1_deg - J1_deg)

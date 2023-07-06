@@ -11,6 +11,9 @@ class Pose
 public:
   Pose(float j1_deg, float j2_deg, float j3_deg, float j4_deg, float j5_deg, float j6_deg);
 
+  /** Reset all joint values.*/
+  void Clear();
+
   /** Return the sum of individual joint distances to another pose.*/
   float JointDistTo(const Pose& pose) const;
 
@@ -20,12 +23,12 @@ public:
   bool operator==(const Pose& pose) const;
   bool operator!=(const Pose& pose) const;
 
-  const float J1_deg;
-  const float J2_deg;
-  const float J3_deg;
-  const float J4_deg;
-  const float J5_deg;
-  const float J6_deg;
+  float J1_deg;
+  float J2_deg;
+  float J3_deg;
+  float J4_deg;
+  float J5_deg;
+  float J6_deg;
 
   static const float kDefaultMaxJointStep_deg; // For computing pose edges
   static const float kInvNumJoints; // Precompute to avoid slow divisions

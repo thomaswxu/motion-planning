@@ -8,7 +8,7 @@
 class Node
 {
 public:
-
+  Node();
   Node(const Pose& pose, int id);
 
   /** Add a connected node to this one.*/
@@ -36,6 +36,7 @@ public:
   inline void set_parent_id(int id) { parent_id_ = id; }
 
   static const float kInitialDistFromStart;
+
 private:
   Pose pose_;
   int id_ = -1;

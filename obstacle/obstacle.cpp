@@ -27,6 +27,16 @@ bool Obstacle::PointIsInside(const Vec3& point) const
 
 bool Obstacle::EdgeIsInside(const Edge& edge, int collision_check_step_mm) const
 {
+  if (PointIsInside(edge.start_point()) || PointIsInside(edge.end_point())) {
+    return true;
+  }
+  int check_dist_mm = 0;
+  while (check_dist_mm <= edge.length()) {
+    if (PointIsInside(edge.IntermediatePoint(check_dist_mm))) {
+      return true;
+    }
+    check_dist_mm += collision_check_step_mm;
+  }
   return false;
 }
 

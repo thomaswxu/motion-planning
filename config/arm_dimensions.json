@@ -2,15 +2,43 @@
   "metadata": {
     "comment": "Arbitrary dimensions to give a reasonable robot arm shape. All links modelled as cylinder/pill shapes. Assume all links (including end effector) have radius for simplicity."
   },
-  "L1_mm": 245,
-  "L2_mm": 215,
-  "L3_mm": 710,
-  "L4_mm": 215,
-  "L5_mm": 540,
-  "L6_mm": 150,
-  "L7_mm": 160,
-  "L_radius_mm": 85,
+  "links_mm": {
+    "L1": 245,
+    "L2": 215,
+    "L3": 710,
+    "L4": 215,
+    "L5": 540,
+    "L6": 150,
+    "L7": 160,
+    "L_radius": 85 
+  },
   "EE": {
     "length_mm": 100
+  },
+  "joints_deg": {
+    "J1": {
+      "min": -180,
+      "max": 180
+    },
+    "J2": {
+      "min": -180,
+      "max": 180
+    },
+    "J3": {
+      "min": -270,
+      "max": 270
+    },
+    "J4": {
+      "min": -190,
+      "max": 190
+    },
+    "J5": {
+      "min": -180,
+      "max": 180
+    },
+    "J6": {
+      "min": -190,
+      "max": 190
+    }
   }
 }

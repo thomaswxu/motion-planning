@@ -9,7 +9,11 @@ In this repository, A* and the Probabilistic Roadmap (PRM) method along with som
 
 The code in this repository assumes a generic 6 DOF robot arm (arm model determines dimensions, joint angle limits, etc. during planning).
 
-### Set Up Environment
+## Setup
+
+### Environment
+
+It is recommended to use a Docker container by following the steps below. It may work outside of the container depending on your system, but no guarantees.
 
 1. Install `docker` and `docker-compose`
     - e.g. in Arch-based distros: `yay -S docker docker-compose`
@@ -27,7 +31,11 @@ When finished, either `stop` the container (which will allow it to be reused lat
 - `sudo docker compose -f docker-compose.yaml stop`
 - `sudo docker compose -f docker-compose.yaml down`
 
-### Run an Example
+### Arm Parameters
+
+The code may be used out of the box with the provided [example arm configuration file](/config/arm_dimensions.json). However, you may wish to use dimensions/parameters specific to your own arm. If so, it's recommended to duplicate the example file and modify it to suit your purposes instead of editing it directly, which will probably make some unit tests fail.
+
+## Usage
 
 1. If not already inside, enter Docker container (see steps [above](#set-up-environment)).
 2. (Skip if done already) Configure the project with CMake:

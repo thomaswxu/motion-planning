@@ -4,6 +4,7 @@
 #pragma once
 
 #include <string>
+#include <utility> // pair
 
 class ArmDimensions
 {
@@ -20,4 +21,12 @@ public:
   float L7_mm;
   float L_radius_mm;
   float EE_length_mm;
+
+  // "JX" = Joint X (ascending from base).
+  std::pair<float, float> J1_deg;
+  std::pair<float, float> J2_deg;
+  std::pair<float, float> J3_deg;
+  std::pair<float, float> J4_deg;
+  std::pair<float, float> J5_deg;
+  std::pair<float, float> J6_deg;
 };

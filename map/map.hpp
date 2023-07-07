@@ -31,7 +31,8 @@ public:
 
   /** Check whether a pose collides with itself, based on stored arm dimensions.*/
   bool PoseSelfCollides(const Pose& pose) const;
-
+  bool PoseSelfCollides(const PosePoints& pose_points) const;
+  
   /** Get the "nearest" nodes for a given node, sorted ascending by distance. Number determined by member variable.*/
   std::vector<std::shared_ptr<Node>> NearNodes(const Node& node) const;
 

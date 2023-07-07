@@ -1,5 +1,6 @@
 #include "map.hpp"
 
+#include <algorithm>
 #include <chrono>
 
 Map::Map(int num_nodes, int num_node_neighbors, const ArmDimensions& arm_dimensions, 
@@ -25,18 +26,66 @@ Pose Map::RandomPose()
 
 bool Map::PoseIsFree(const Pose& pose) const
 {
+  PosePoints pose_points(pose, arm_dimensions_);
+  if (PoseSelfCollides(pose_points)) {
+    return false;
+  }
+
+  std::vector<Vec3> inverse_vectors = pose_points.ArmEdgeInverseVectors();
+  for (const Obstacle& obstacle : obstacles_) {
+    if (obstacle.PoseIsInside(pose_points, inverse_vectors, arm_dimensions_)) {
+      return false;
+    }
+  }
   return true;
 }
 
 bool Map::PoseSelfCollides(const Pose& pose) const
 {
+  return PoseSelfCollides(PosePoints(pose, arm_dimensions_));
+}
+bool Map::PoseSelfCollides(const PosePoints& pose_points) const
+{
+  // Basic self-collision checking.
+  // Currently assumes that self-collisions are only possible involving last 2 links or end effector.
+  std::vector<Edge> arm_edges = pose_points.arm_edges();
+  Edge L1 = arm_edges.front();
+  Edge L2 = arm_edges[1];
+  Edge L3 = arm_edges[2];
+  Edge L6 = arm_edges[5];
+  Edge L7 = arm_edges[6];
+  Edge EE_link = arm_edges.back();
+
+  // Minimum distance to prevent collision between links, based on "pill" shape links.
+  float minimum_distance_mm = 2 * arm_dimensions_.L_radius_mm;
+  
+  if (L6.DistTo(L2) < minimum_distance_mm || L6.DistTo(L3) < minimum_distance_mm) {
+    return true;
+  }
+  if (L7.DistTo(L2) < minimum_distance_mm || L7.DistTo(L3) < minimum_distance_mm) {
+    return true;
+  }
+  if (EE_link.DistTo(L1) < minimum_distance_mm
+   || EE_link.DistTo(L2) < minimum_distance_mm
+   || EE_link.DistTo(L3) < minimum_distance_mm) {
+    return true;
+  }
   return false;
 }
 
-// std::vector<std::shared_ptr<Node>> Map::NearNodes(const Node& node) const
-// {
-
-// }
+std::vector<std::shared_ptr<Node>> Map::NearNodes(const Node& node) const
+{
+  // Sort all nodes based on distance and return the closest few (excluding the same node itself).
+  std::vector<std::shared_ptr<Node>> sorted_near_nodes = nodes_;
+  std::sort(sorted_near_nodes.begin(), sorted_near_nodes.end(),
+            [&node](const std::shared_ptr<Node>& node1, const std::shared_ptr<Node>& node2) {
+              return node.DistTo(*node1) < node.DistTo(*node2);
+            });
+  std::vector<std::shared_ptr<Node>>::const_iterator first_near_node = sorted_near_nodes.begin() + 1;
+  std::vector<std::shared_ptr<Node>>::const_iterator last_near_node =
+    first_near_node + std::min(num_node_neighbors_, int(sorted_near_nodes.size() - 1));
+  return std::vector<std::shared_ptr<Node>>(first_near_node, last_near_node);
+}
 
 void Map::InitializeJointSamplingDistributions()
 {

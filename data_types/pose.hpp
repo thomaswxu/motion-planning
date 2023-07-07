@@ -10,6 +10,7 @@ class Pose
 {
 public:
   Pose(float j1_deg, float j2_deg, float j3_deg, float j4_deg, float j5_deg, float j6_deg);
+  Pose(const std::vector<float>& joint_values_deg);
 
   /** Reset all joint values.*/
   void Clear();
@@ -32,4 +33,5 @@ public:
 
   static const float kDefaultMaxJointStep_deg; // For computing pose edges
   static const float kInvNumJoints; // Precompute to avoid slow divisions
+  static const int kNumJoints = 6;
 };

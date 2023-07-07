@@ -27,4 +27,6 @@ ArmDimensions::ArmDimensions(const std::string& config_file)
   J4_deg = std::make_pair(dimension_data["joints_deg"]["J4"]["min"], dimension_data["joints_deg"]["J4"]["max"]);
   J5_deg = std::make_pair(dimension_data["joints_deg"]["J5"]["min"], dimension_data["joints_deg"]["J5"]["max"]);
   J6_deg = std::make_pair(dimension_data["joints_deg"]["J6"]["min"], dimension_data["joints_deg"]["J6"]["max"]);
+
+  joint_limits_deg.assign({J1_deg, J2_deg, J3_deg, J4_deg, J5_deg, J6_deg});
 }

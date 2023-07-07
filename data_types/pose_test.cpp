@@ -2,6 +2,15 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <vector>
+
+TEST_CASE("Construction with vector works", "[construction]")
+{
+  std::vector<float> joint_values = {1, 2, 3, 4, 5, 6};
+  Pose pose(joint_values);
+  REQUIRE(pose.J3_deg == 3);
+}
+
 TEST_CASE("Operators work", "[operators]")
 {
   Pose p1(1, 2, 3, 4, 5, 6);

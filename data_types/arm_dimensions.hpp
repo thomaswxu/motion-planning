@@ -5,6 +5,7 @@
 
 #include <string>
 #include <utility> // pair
+#include <vector>
 
 class ArmDimensions
 {
@@ -29,4 +30,6 @@ public:
   std::pair<float, float> J4_deg;
   std::pair<float, float> J5_deg;
   std::pair<float, float> J6_deg;
+
+  std::vector<std::pair<float, float>> joint_limits_deg; // Additional vector form for convenience.
 };

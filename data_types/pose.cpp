@@ -2,6 +2,7 @@
 
 #include <algorithm> // max
 #include <cmath>
+#include <stdexcept>
 
 const float Pose::kDefaultMaxJointStep_deg = 10.0;
 const float Pose::kInvNumJoints = 0.166666;
@@ -9,6 +10,20 @@ const float Pose::kInvNumJoints = 0.166666;
 Pose::Pose(float j1_deg, float j2_deg, float j3_deg, float j4_deg, float j5_deg, float j6_deg)
     : J1_deg(j1_deg), J2_deg(j2_deg), J3_deg(j3_deg), J4_deg(j4_deg), J5_deg(j5_deg), J6_deg(j6_deg)
 {}
+
+Pose::Pose(const std::vector<float>& joint_values_deg)
+{
+  if (joint_values_deg.size() != kNumJoints) {
+    throw std::runtime_error("Pose: Invalid number of joint values provided in vector. Should be "
+                            + std::to_string(kNumJoints) + ".");
+  }
+  J1_deg = joint_values_deg[0];
+  J2_deg = joint_values_deg[1];
+  J3_deg = joint_values_deg[2];
+  J4_deg = joint_values_deg[3];
+  J5_deg = joint_values_deg[4];
+  J6_deg = joint_values_deg[5];
+}
 
 void Pose::Clear()
 {

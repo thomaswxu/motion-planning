@@ -37,12 +37,6 @@ public:
                         const std::vector<std::vector<Vec3>>& all_poses_inverse_vectors,
                         const ArmDimensions& arm_dims) const;
 
-  /** Get the distance to a given point.*/
-  float DistToPoint(const Vec3& point) const;
-
-  /** Get the distance to a given edge.*/
-  float DistTOEdge(const Edge& edge) const;
-
 private:
   const float min_x_;
   const float max_x_;

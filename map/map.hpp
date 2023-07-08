@@ -40,6 +40,10 @@ public:
   /** Check whether the "edge" connecting two poses is collision-free.*/
   bool PoseEdgeIsFree(const Pose& pose1, const Pose& pose2) const;
 
+  /** Compute intermediate poses evenly divided between two given poses, in order.*/
+  static std::vector<Pose> GetIntermediatePoses(const Pose& pose1, const Pose& pose2,
+                                                float joint_angle_step_deg=kMaxPoseStep_deg);
+
   /** Get the "nearest" nodes for a given node, sorted ascending by distance. Number determined by member variable.*/
   std::vector<std::shared_ptr<Node>> NearNodes(const Node& node) const;
 

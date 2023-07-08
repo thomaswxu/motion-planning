@@ -49,6 +49,17 @@ float Pose::JointDistTo(const Pose& pose) const
        + std::abs(pose.J6_deg - J6_deg);
 }
 
+float Pose::MaxJointDistTo(const Pose& pose) const
+{
+  return std::max({std::abs(J1_deg - pose.J1_deg),
+                   std::abs(J2_deg - pose.J2_deg),
+                   std::abs(J3_deg - pose.J3_deg),
+                   std::abs(J4_deg - pose.J4_deg),
+                   std::abs(J5_deg - pose.J5_deg),
+                   std::abs(J6_deg - pose.J6_deg)});
+}
+
+
 bool Pose::IsValid(const ArmDimensions& arm_dimensions) const
 {
   if (arm_dimensions.joint_limits_deg.size() != kNumJoints) {

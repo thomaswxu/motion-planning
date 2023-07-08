@@ -141,7 +141,43 @@ bool Map::PoseIsFree(const Pose& pose) const
 
 bool Map::PoseEdgeIsFree(const Pose& pose1, const Pose& pose2) const
 {
+  // Precompute intermediate poses (along with related quantities)
+  std::vector<Pose> intermediate_poses = GetIntermediatePoses(pose1, pose2);
+  std::vector<PosePoints> all_pose_points;
+  std::vector<std::vector<Vec3>> all_inverse_vectors;
+  for (const Pose& intermediate_pose : intermediate_poses) {
+    PosePoints pose_points(intermediate_pose, arm_dimensions_);
+    if (PoseSelfCollides(pose_points)) {
+      return false;
+    }
+    all_pose_points.push_back(pose_points);
+    all_inverse_vectors.push_back(pose_points.ArmEdgeInverseVectors());
+  }
+
+  // Check obstacle collisions
+  for (const Obstacle& obstacle : obstacles_) {
+    if (obstacle.PoseEdgeIsInside(intermediate_poses, all_pose_points, all_inverse_vectors, arm_dimensions_)) {
+      return false;
+    }
+  }
   return true;
+}
+
+std::vector<Pose> Map::GetIntermediatePoses(const Pose& pose1, const Pose& pose2, float joint_angle_step_deg)
+{
+  std::vector<Pose> intermediate_poses;
+  int num_steps = std::ceil(pose1.MaxJointDistTo(pose2) / joint_angle_step_deg);
+  float inverse_num_steps = 1.0 / num_steps;
+  for (int i = 0; i <= num_steps; i++) {
+    intermediate_poses.push_back(
+      Pose(pose1.J1_deg + i * (pose2.J1_deg - pose1.J1_deg) * inverse_num_steps,
+           pose1.J2_deg + i * (pose2.J2_deg - pose1.J2_deg) * inverse_num_steps,
+           pose1.J3_deg + i * (pose2.J3_deg - pose1.J3_deg) * inverse_num_steps,
+           pose1.J4_deg + i * (pose2.J4_deg - pose1.J4_deg) * inverse_num_steps,
+           pose1.J5_deg + i * (pose2.J5_deg - pose1.J5_deg) * inverse_num_steps,
+           pose1.J6_deg + i * (pose2.J6_deg - pose1.J6_deg) * inverse_num_steps));
+  }
+  return intermediate_poses;
 }
 
 std::vector<std::shared_ptr<Node>> Map::NearNodes(const Node& node) const
@@ -301,12 +337,7 @@ std::vector<Pose> Map::NodePathToPosePath(const std::vector<Node>& node_path) co
       set_previous_node = true;
       continue;
     }
-    float max_joint_difference_deg = std::max({std::abs(node.pose().J1_deg - previous_node.pose().J1_deg),
-                                               std::abs(node.pose().J2_deg - previous_node.pose().J2_deg),
-                                               std::abs(node.pose().J3_deg - previous_node.pose().J3_deg),
-                                               std::abs(node.pose().J4_deg - previous_node.pose().J4_deg),
-                                               std::abs(node.pose().J5_deg - previous_node.pose().J5_deg),
-                                               std::abs(node.pose().J6_deg - previous_node.pose().J6_deg)});
+    float max_joint_difference_deg = node.pose().MaxJointDistTo(previous_node.pose());
     int num_steps = std::ceil(max_joint_difference_deg / kMaxPoseStep_deg);
     float inverse_num_steps = 1.0 / num_steps;
     for (int i = 0; i < num_steps; i++) {

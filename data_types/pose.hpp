@@ -20,6 +20,9 @@ public:
   /** Return the sum of individual joint distances to another pose.*/
   float JointDistTo(const Pose& pose) const;
 
+  /** Return the biggest individual joint distance magnitude to another pose.*/
+  float MaxJointDistTo(const Pose& pose) const;
+
   /** Check if the stored joint values are valid given some joint ranges.*/
   bool IsValid(const ArmDimensions& arm_dimensions) const;
 

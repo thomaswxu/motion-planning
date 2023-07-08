@@ -15,8 +15,9 @@ Pose::Pose(float j1_deg, float j2_deg, float j3_deg, float j4_deg, float j5_deg,
 
 Pose::Pose(const std::vector<float>& pose_joint_values_deg)
 {
-  if (joint_values_deg.size() != kNumJoints) {
-    throw std::runtime_error("Pose: Invalid number of joint values provided in vector. Should be "
+  if (pose_joint_values_deg.size() != kNumJoints) {
+    throw std::runtime_error("Pose: Invalid number of joint values provided in vector ("
+                            + std::to_string(joint_values_deg.size()) + "). Should be "
                             + std::to_string(kNumJoints) + ".");
   }
   J1_deg = pose_joint_values_deg[0];

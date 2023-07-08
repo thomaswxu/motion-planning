@@ -15,7 +15,8 @@ target_link_libraries(NodeComparator PUBLIC Node)
 
 add_library(Map map.hpp map.cpp)
 target_include_directories(Map PUBLIC ../obstacle)
-target_link_libraries(Map PUBLIC Node Obstacle)
+target_link_libraries(Map PUBLIC Node NodeComparator Obstacle)
 
 add_executable(MapTest map_test.cpp)
-target_link_libraries(MapTest PUBLIC Map Obstacle Catch2::Catch2WithMain)
+target_include_directories(MapTest PUBLIC ../obstacle ../data_types)
+target_link_libraries(MapTest PUBLIC Map Obstacle ArmDimensions Catch2::Catch2WithMain)

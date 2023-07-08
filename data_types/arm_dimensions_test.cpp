@@ -23,6 +23,7 @@ TEST_CASE("Config file is parsed correctly", "[parsing]")
     REQUIRE(ad.J4_deg.first == -190);
     REQUIRE(ad.J4_deg.second == 190);
 
+    REQUIRE(ad.joint_limits_deg.size() == 6);
     REQUIRE(ad.joint_limits_deg[3].first == -190);
     REQUIRE(ad.joint_limits_deg[3].second == 190);
   }

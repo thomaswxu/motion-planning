@@ -2,6 +2,28 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+TEST_CASE("Construction works", "[construction]")
+{
+  SECTION("Explicit") {
+    Obstacle obs(1, 2, 3, 4, 5, 6);
+    REQUIRE(obs.min_y() == 3);
+    REQUIRE(obs.max_z() == 6);
+    REQUIRE(obs.max().Component(1) == 4);
+  }
+  SECTION("From configuration file") {
+    Obstacle ceiling("/motion-planning/config/obstacles.json", "ceiling");
+    Obstacle test_box("/motion-planning/config/obstacles.json", "test_box");
+    REQUIRE(ceiling.name() == "ceiling");
+    REQUIRE(test_box.name() == "test_box");
+
+    REQUIRE(ceiling.min_y() == -1500);
+    REQUIRE(ceiling.max_x() == 1500);
+
+    REQUIRE(test_box.min_x() == 0);
+    REQUIRE(test_box.max_z() == 1000);
+  }
+}
+
 TEST_CASE("Collision detection works", "[collision]")
 {
   Obstacle obs(-3, 3, -3, 3, -3, 3);

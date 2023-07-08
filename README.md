@@ -19,6 +19,7 @@ It is recommended to use a Docker container by following the steps below. It may
     - e.g. in Arch-based distros: `yay -S docker docker-compose`
     - Be sure to `enable` and `start` the Docker daemon
         - e.g. `systemctl enable docker.service && systemctl start docker.service`
+    - Note: depending on your install, either `docker compose` or `docker-compose` may work for the following commands.
 2. Build the Docker image:
     - `sudo docker build -f Dockerfile -t motion-planning:latest .`
 3. Start the container:
@@ -36,6 +37,10 @@ When finished, either `stop` the container (which will allow it to be reused lat
 The code may be used out of the box with the provided [example arm configuration file](/config/arm_dimensions.json). However, you may wish to use dimensions/parameters specific to your own arm. If so, it's recommended to duplicate the example file and modify it to suit your purposes instead of editing it directly, which will probably make some unit tests fail.
 
 Additionally, note that if you significantly change the arm dimensions you will probably want to modify the self-collision checking function in the [Map](./map/map.hpp) class.
+
+### Obstacles
+
+The guidance in [Arm Parameters](#arm-parameters) applies. Recommended to duplicate the [example obstacles configuration file](./config/obstacles.json) instead of modifying it, or else some unit tests may fail.
 
 ## Usage
 
@@ -63,8 +68,9 @@ To run the unit tests:
   2. Navigate to the `build` directory.
   3. Run any of the unit test executables, e.g. `Vec3Test`.
 
-## Note on Code Format
-The code mainly follows the Google code style guidelines. Max characters per line are limited to 120.
+## Code Format/Style
+
+The code mainly follows the Google code style guidelines. Max characters per line are limited to 120 instead of 80.
 
 ## License
 

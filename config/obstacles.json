@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "comment": "Example configuration file for obstacles. Units should be in millimeters. Assume origin at robot arm joint 1."
+  },
+  "ceiling": {
+    "x_mm": {
+      "min": -1500,
+      "max": 1500
+    },
+    "y_mm": {
+      "min": -1500,
+      "max": 1500
+    },
+    "z_mm": {
+      "min": -1500,
+      "max": 1500
+    }
+  },
+  "test_box": {
+    "x_mm": {
+      "min": 0,
+      "max": 500
+    },
+    "y_mm": {
+      "min": -1000,
+      "max": -500
+    },
+    "z_mm": {
+      "min": 500,
+      "max": 1000
+    }
+  }
+}

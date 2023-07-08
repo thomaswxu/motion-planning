@@ -1,21 +1,39 @@
 #include "obstacle.hpp"
 
 #include <algorithm> // clamp
+#include <fstream>
 #include <limits>
 #include <stdexcept>
 
-Obstacle::Obstacle(float min_x, float max_x, float min_y, float max_y, float min_z, float max_z)
-    : min_x_(min_x), max_x_(max_x), min_y_(min_y), max_y_(max_y), min_z_(min_z), max_z_(max_z)
+#include "nlohmann/json.hpp"
+
+using json = nlohmann::json;
+
+Obstacle::Obstacle(float min_x, float max_x, float min_y, float max_y, float min_z, float max_z,
+                   const std::string& name)
+    : min_x_(min_x), max_x_(max_x), min_y_(min_y), max_y_(max_y), min_z_(min_z), max_z_(max_z), name_(name)
 {
-  if (max_x_ < min_x_) {
-    throw std::runtime_error("Obstacle: Invalid dimensions; max x < min_x.");
-  }
-  if (max_y_ < min_y_) {
-    throw std::runtime_error("Obstacle: Invalid dimensions; max y < min_y.");
-  }
-  if (max_z_ < min_z_) {
-    throw std::runtime_error("Obstacle: Invalid dimensions; max z < min_z.");
-  }
+  min_ = Vec3(min_x_, min_y_, min_z_);
+  max_ = Vec3(max_x_, max_y_, max_z_);
+  CheckDimensions();
+}
+
+Obstacle::Obstacle(const std::string& config_file, const std::string& name)
+    : name_(name)
+{
+  std::ifstream config_fstream(config_file);
+  json obstacle_data = json::parse(config_fstream);
+
+  min_x_ = obstacle_data[name]["x_mm"]["min"];
+  max_x_ = obstacle_data[name]["x_mm"]["max"];
+  min_y_ = obstacle_data[name]["y_mm"]["min"];
+  max_y_ = obstacle_data[name]["y_mm"]["max"];
+  min_z_ = obstacle_data[name]["z_mm"]["min"];
+  max_z_ = obstacle_data[name]["z_mm"]["max"];
+  min_ = {min_x_, min_y_, min_z_};
+  max_ = {max_x_, max_y_, max_z_};
+
+  CheckDimensions();
 }
 
 bool Obstacle::PointIsInside(const Vec3& point) const
@@ -109,4 +127,17 @@ bool Obstacle::PoseEdgeIsInside(const std::vector<Pose>& poses, const std::vecto
     }
   }
   return false;
+}
+
+void Obstacle::CheckDimensions() const
+{
+  if (max_x_ < min_x_) {
+    throw std::runtime_error("Obstacle: Invalid dimensions; max x < min_x.");
+  }
+  if (max_y_ < min_y_) {
+    throw std::runtime_error("Obstacle: Invalid dimensions; max y < min_y.");
+  }
+  if (max_z_ < min_z_) {
+    throw std::runtime_error("Obstacle: Invalid dimensions; max z < min_z.");
+  }
 }

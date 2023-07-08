@@ -53,11 +53,15 @@ The guidance in [Arm Parameters](#arm-parameters) applies. Recommended to duplic
 3. Build the project:
     0. Navigate to the `build` directory.
     1. `cmake --build .`
-4. TODO
+4. Run the [example script](./examples/example_motion_plan.cpp).
 
 ### Visualize Results
 
-1. TODO
+Visualization is done using `matplotlib` plots in a Python script. Currently, I do not know of a straightforward/general way to view the plots directly in Docker. If you know of one, please let me know or make a pull request. In the meantime, to view the interactive visualization plots you have to run the Python script locally.
+
+1. Install required Python packages from [`requirements.txt](./visualizer/requirements.txt).
+    - The exact command will depend on your system. A common one: `pip install -r visualizer/requirements.txt`
+2. TODO
 
 ## Unit Tests
 

@@ -38,7 +38,7 @@ std::vector<Pose> Map::PlanPath(const Pose& start, const Pose& goal) const
   }
   // Add goal pose to graph
   Node goal_node = Node(goal, Node::kGoalNodeID);
-  int num_goal_node_connections;
+  int num_goal_node_connections = 0;
   for (const std::shared_ptr<Node>& near_node : NearNodes(goal_node)) {
     if (PoseEdgeIsFree(near_node->pose(), goal_node.pose())) {
       near_node->AddConnection(goal_node.id());

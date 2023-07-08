@@ -1,6 +1,7 @@
 #include "obstacle.hpp"
 
 #include <algorithm> // clamp
+#include <iostream>
 #include <fstream>
 #include <limits>
 #include <stdexcept>
@@ -127,6 +128,21 @@ bool Obstacle::PoseEdgeIsInside(const std::vector<Pose>& poses, const std::vecto
     }
   }
   return false;
+}
+
+std::vector<Obstacle> Obstacle::ObstaclesFromConfigFile(const std::string& config_file)
+{
+  std::ifstream config_fstream(config_file);
+  json obstacle_data = json::parse(config_fstream);
+
+  std::vector<Obstacle> obstacles;
+  for (const auto& item : obstacle_data.items()) {
+    if (item.key() == "metadata") {
+      continue;
+    }
+    obstacles.push_back(Obstacle(config_file, item.key()));
+  }
+  return obstacles;
 }
 
 void Obstacle::CheckDimensions() const

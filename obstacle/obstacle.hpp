@@ -42,6 +42,9 @@ public:
                         const std::vector<std::vector<Vec3>>& all_poses_inverse_vectors,
                         const ArmDimensions& arm_dims) const;
 
+  /** Convenience function to read all obstacles in a configuration file.*/
+  static std::vector<Obstacle> ObstaclesFromConfigFile(const std::string& config_file);
+
   inline float min_x() const { return min_x_; }
   inline float max_x() const { return max_x_; }
   inline float min_y() const { return min_y_; }

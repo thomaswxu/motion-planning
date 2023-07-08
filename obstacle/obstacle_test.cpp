@@ -2,6 +2,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include <vector>
+
 TEST_CASE("Construction works", "[construction]")
 {
   SECTION("Explicit") {
@@ -22,6 +24,17 @@ TEST_CASE("Construction works", "[construction]")
     REQUIRE(test_box.min_x() == 0);
     REQUIRE(test_box.max_z() == 1000);
   }
+}
+
+TEST_CASE("Reading multiple obstacles from configuration file works", "[parsing]")
+{
+  std::vector<Obstacle> obstacles = Obstacle::ObstaclesFromConfigFile("/motion-planning/config/obstacles.json");
+  REQUIRE(obstacles.size() == 2);
+  REQUIRE(obstacles[0].name() == "ceiling");
+  REQUIRE(obstacles[1].name() == "test_box");
+
+  REQUIRE(obstacles[0].max_y() == 1500);
+  REQUIRE(obstacles[1].max_y() == -500);
 }
 
 TEST_CASE("Collision detection works", "[collision]")

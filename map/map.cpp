@@ -13,6 +13,17 @@ Map::Map(int num_nodes, int num_node_neighbors, const ArmDimensions& arm_dimensi
   GenerateEdges();
 }
 
+Map::Map(int num_nodes, int num_node_neighbors, const std::string& arm_dimensions_config_file,
+         const std::string& obstacles_config_file)
+    : num_nodes_(num_nodes), num_node_neighbors_(num_node_neighbors),
+      arm_dimensions_(ArmDimensions(arm_dimensions_config_file)),
+      obstacles_(Obstacle::ObstaclesFromConfigFile(obstacles_config_file))
+{
+  InitializeJointSamplingDistributions();
+  GenerateNodes(num_nodes);
+  GenerateEdges();
+}
+
 std::vector<Pose> Map::PlanPath(const Pose& start, const Pose& goal) const
 {
   printf("Map: Planning path...\n");

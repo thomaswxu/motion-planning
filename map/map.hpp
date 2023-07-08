@@ -12,8 +12,9 @@
 #include "obstacle.hpp"
 
 #include <memory>
-#include <random>
 #include <queue>
+#include <random>
+#include <string>
 #include <vector>
 
 class Map
@@ -23,6 +24,9 @@ public:
   /** Construct a roadmap using the provided parameters. May take awhile, depending on the params.*/
   Map(int num_nodes, int num_node_neighbors, const ArmDimensions& arm_dimensions,
       const std::vector<Obstacle>& obstacles);
+  /** Constructor that reads dimensions and obstacles from provided configuration files.*/
+  Map(int num_nodes, int num_node_neighbors, const std::string& arm_dimensions_config_file,
+      const std::string& obstacles_config_file);
 
   /** Plan a collision-free path from given start and goal poses.*/
   std::vector<Pose> PlanPath(const Pose& start, const Pose& goal) const;
@@ -49,6 +53,7 @@ public:
 
   inline int Size() const { return nodes_.size(); }
   inline std::vector<std::shared_ptr<Node>> nodes() const { return nodes_; }
+  inline std::vector<Obstacle> obstacles() const { return obstacles_; }
 
   static const int kMaxPoseStep_deg = 10; // Max step to take when constructing pose paths.
 

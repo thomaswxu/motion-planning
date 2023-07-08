@@ -7,7 +7,10 @@
 
 TEST_CASE("Map construction works", "[construction]")
 {
-  ArmDimensions arm_dimensions("/motion-planning/config/arm_dimensions.json");
+  std::string arm_dimensions_config_file = "/motion-planning/config/arm_dimensions.json";
+  std::string obstacles_config_file = "/motion-planning/config/obstacles.json";
+
+  ArmDimensions arm_dimensions(arm_dimensions_config_file);
   std::vector<Obstacle> obstacles = {};
   int num_node_neighbors = 1;
 
@@ -33,11 +36,18 @@ TEST_CASE("Map construction works", "[construction]")
     }
     REQUIRE(node_ids_match);
   }
+  SECTION("Construction from configuration files") {
+    int num_nodes = 50;
+    Map map(num_nodes, num_node_neighbors, arm_dimensions_config_file, obstacles_config_file);
+    REQUIRE(map.obstacles().size() == 2);
+  }
 }
 
 TEST_CASE("Path planning works", "[planning]")
 {
-  ArmDimensions arm_dimensions("/motion-planning/config/arm_dimensions.json");
+  std::string arm_dimensions_config_file = "/motion-planning/config/arm_dimensions.json";
+  std::string obstacles_config_file = "/motion-planning/config/obstacles.json";
+  ArmDimensions arm_dimensions(arm_dimensions_config_file);
   int num_nodes = 500;
   int num_node_neighbors = 3;
 
@@ -49,6 +59,10 @@ TEST_CASE("Path planning works", "[planning]")
     REQUIRE(!planned_path.empty());
   }
   SECTION("Obstacles") {
-
+    Map map(num_nodes, num_node_neighbors, arm_dimensions_config_file, obstacles_config_file);
+    Pose start(0, 0, 0, 0, 0, 0);
+    Pose goal(30, 30, 0, 100, -100, 30);
+    std::vector<Pose> planned_path = map.PlanPath(start, goal);
+    REQUIRE(!planned_path.empty());
   }
 }

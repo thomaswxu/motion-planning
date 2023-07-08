@@ -8,6 +8,7 @@
 
 #include "arm_dimensions.hpp"
 #include "node.hpp"
+#include "node_comparator.hpp"
 #include "obstacle.hpp"
 
 #include <memory>
@@ -23,21 +24,29 @@ public:
   Map(int num_nodes, int num_node_neighbors, const ArmDimensions& arm_dimensions,
       const std::vector<Obstacle>& obstacles);
 
+  /** Plan a collision-free path from given start and goal poses.*/
+  std::vector<Pose> PlanPath(const Pose& start, const Pose& goal) const;
+
   /** Get a new random arm pose.*/
   Pose RandomPose();
   
-  /** Check whether a given pose is collision-free (including self collisions).*/
-  bool PoseIsFree(const Pose& pose) const;
-
   /** Check whether a pose collides with itself, based on stored arm dimensions.*/
   bool PoseSelfCollides(const Pose& pose) const;
   bool PoseSelfCollides(const PosePoints& pose_points) const;
-  
+
+  /** Check whether a given pose is collision-free (including self collisions).*/
+  bool PoseIsFree(const Pose& pose) const;
+
+  /** Check whether the "edge" connecting two poses is collision-free.*/
+  bool PoseEdgeIsFree(const Pose& pose1, const Pose& pose2) const;
+
   /** Get the "nearest" nodes for a given node, sorted ascending by distance. Number determined by member variable.*/
   std::vector<std::shared_ptr<Node>> NearNodes(const Node& node) const;
 
   inline int Size() const { return nodes_.size(); }
   inline std::vector<std::shared_ptr<Node>> nodes() const { return nodes_; }
+
+  static const int kMaxPoseStep_deg = 10; // Max step to take when constructing pose paths.
 
 private:
   /** Initialize random distributions used for map generation.*/
@@ -48,6 +57,21 @@ private:
 
   /** Generate edges to connect all stored nodes.*/
   void GenerateEdges();
+
+  /** Check whether a node path is valid. If invalid, prunes invalid edge and resets nodes for a new planning attempt.*/
+  bool CheckNodePath(const std::vector<Node>& node_path) const;
+
+  /** Do a single planning attempt. Returns full path (including start/goal nodes) if successful, empty otherwise.*/
+  std::vector<Node> PlanPathAttempt(const Node& start_node, const Node& goal_node) const;
+
+  /** Check whether a given node has already been added to the priority queue.*/
+  bool NodeIsInQueue(const Node& node, std::priority_queue<Node, std::vector<Node>, NodeComparator> node_queue) const;
+
+  /** Retrieve the full node path between the two given nodes (inclusive).*/
+  std::vector<Node> GetNodePath(const Node& last_node, const Node& first_node) const;
+
+  /** Convert a sequence of nodes to the corresponding sequence of arm poses.*/
+  std::vector<Pose> NodePathToPosePath(const std::vector<Node>& node_path) const;
 
   int num_nodes_;
   int num_node_neighbors_; // For use during roadmap generation.

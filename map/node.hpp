@@ -39,6 +39,9 @@ public:
   inline void set_parent_id(int id) { parent_id_ = id; }
 
   static const float kInitialDistFromStart;
+  static const int kInitialNodeID = -1;
+  static const int kStartNodeID = -2;
+  static const int kGoalNodeID = -3;
 
 private:
   Pose pose_;

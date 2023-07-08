@@ -220,7 +220,16 @@ void Map::SavePath(const std::vector<Pose>& path, const std::string& save_file_n
   std::ofstream save_file(save_file_name);
   if (save_file.is_open()) {
     save_file << std::fixed << std::setprecision(decimal_places);
-    save_file << "asdf" << "\n\n" << "basdf";
+
+    // Save pose arm/joint points
+    save_file << "arm_points:\n";
+    for (const PosePoints& pose_points : path_pose_points) {
+      save_file << "[\n";
+      for (const Vec3& arm_point : pose_points.arm_points()) {
+        save_file << arm_point.x() << ", " << arm_point.y() << ", " << arm_point.z() << "\n"; 
+      }  
+      save_file << "]\n";
+    }
 
     printf("Map: Saved path to file: '%s'\n", save_file_name.c_str());
   } else {

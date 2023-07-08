@@ -1,5 +1,8 @@
 build/
 
+# Saved path files
+*.txt
+
 # Prerequisites
 *.d
 

@@ -51,6 +51,9 @@ public:
   /** Get the "nearest" nodes for a given node, sorted ascending by distance. Number determined by member variable.*/
   std::vector<std::shared_ptr<Node>> NearNodes(const Node& node) const;
 
+  /** Save a path to a text file, e.g. for visualizing a planned path.*/
+  void SavePath(const std::vector<Pose>& path, const std::string& save_file_name);
+
   inline int Size() const { return nodes_.size(); }
   inline std::vector<std::shared_ptr<Node>> nodes() const { return nodes_; }
   inline std::vector<Obstacle> obstacles() const { return obstacles_; }

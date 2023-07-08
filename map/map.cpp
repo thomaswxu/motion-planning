@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <chrono>
+#include <fstream>
+#include <iomanip> // setprecision
 
 Map::Map(int num_nodes, int num_node_neighbors, const ArmDimensions& arm_dimensions, 
          const std::vector<Obstacle>& obstacles)
@@ -204,6 +206,29 @@ std::vector<std::shared_ptr<Node>> Map::NearNodes(const Node& node) const
     first_near_node + std::min(num_node_neighbors_, int(sorted_near_nodes.size() - 1));
   return std::vector<std::shared_ptr<Node>>(first_near_node, last_near_node);
 }
+
+void Map::SavePath(const std::vector<Pose>& path, const std::string& save_file_name)
+{
+  // Get corresponding pose points for each pose in path
+  std::vector<PosePoints> path_pose_points;
+  for (const Pose& pose : path) {
+    path_pose_points.push_back(PosePoints(pose, arm_dimensions_));
+  }
+
+  // Save all relevant info to file
+  int decimal_places = 3;
+  std::ofstream save_file(save_file_name);
+  if (save_file.is_open()) {
+    save_file << std::fixed << std::setprecision(decimal_places);
+    save_file << "asdf" << "\n\n" << "basdf";
+
+    printf("Map: Saved path to file: '%s'\n", save_file_name.c_str());
+  } else {
+    printf("Map: Failed to save path to file: '%s'\n", save_file_name.c_str());
+  }
+  save_file.close();
+}
+
 
 void Map::InitializeJointSamplingDistributions()
 {

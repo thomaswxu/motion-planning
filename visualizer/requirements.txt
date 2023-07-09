@@ -1,6 +1,8 @@
-numpy
-matplotlib
-typing
-pytest
 argparse
+dataclasses
+json
+matplotlib
+numpy
+pytest
 sys
+typing

@@ -2,21 +2,24 @@
 """File used to visualize motion planning results.
 """
 import argparse
-import numpy as np
+import json
+from obstacle import Obstacle
 import matplotlib.pyplot as plt
-from typing import List
+import numpy as np
 import sys
+from typing import List
 
 class PathVisualizer:
     """Class containing various functions used to generate an interactive plot for a saved motion plan.
 
     Attributes:
         path_file_name: Name of the text file storing the path data.
-        obstacles_file_name: Name of the configuration file storing data of the obstacles present during planning.
+        obstacles_file_name: Name of the JSON configuration file storing data of the obstacles present during planning.
 
         path_pose_index: Used to track which pose along the path to draw.
         arm_points: List holding all the arm joint XYZ points for each pose along the path.
         link_points: List holding XYZ points that trace the surface of each arm link, for visualization purposes.
+        obstacles: List holding obstacle XYZ points read from a given configuration file.
 
         figure: Plotting figure to be used for visualization.
         ax: Axes object corresponding to plotting figure.
@@ -29,7 +32,7 @@ class PathVisualizer:
         
         Args:
             path_file_name: Which path data text file to visualize.
-            obstacles_file_name: Name of the obstacle configuration file corresponding to the path data file.
+            obstacles_file_name: Obstacle configuration JSON file corresponding to the path data file.
         """
         self.path_file_name = path_file_name
         self.obstacles_file_name = obstacles_file_name
@@ -37,7 +40,9 @@ class PathVisualizer:
         self.path_pose_index = 0
         self.arm_points = []
         self.link_points = []
+        self.obstacles = []
         self.read_path_file()
+        self.read_obstacles_file()
 
         self.figure = plt.figure()
         self.ax = self.figure.add_subplot(projection='3d')
@@ -50,8 +55,9 @@ class PathVisualizer:
         # Set up keyboard controls
         self.figure.canvas.mpl_connect('key_press_event', self.update_plot_on_key_press)
 
-        # Plot initial pose
+        # Plot initial state
         self.plot_pose()
+        self.plot_obstacles()
         plt.show()
 
     def set_axes_equal(self) -> None:
@@ -71,17 +77,23 @@ class PathVisualizer:
 
     def plot_pose_arm_points(self, arm_points: np.array) -> None:
         """Plot the arm points for a single pose along the path."""
-        self.ax.plot(arm_points[:, 0], arm_points[:, 1], arm_points[:, 2], color="#11b81e", marker='o')
+        self.ax.plot(arm_points[:, 0], arm_points[:, 1], arm_points[:, 2], color='#11b81e', marker='o')
 
     def plot_pose(self) -> None:
         """Plot a single pose along the path, along with the corresponding environment."""
-        self.ax.set_title('Motion Plan Visualization')
+        self.ax.set_title('Motion Plan Visualization\n(' + self.forward_key + " = step forward, "
+            + self.back_key + "= step back)")
         self.ax.set_xlabel('X (mm)')
         self.ax.set_ylabel('Y (mm)')
         self.ax.set_zlabel('Z (mm)')
 
         self.plot_pose_arm_points(self.arm_points[self.path_pose_index])
         self.set_axes_equal()
+
+    def plot_obstacles(self) -> None:
+        for obstacle in self.obstacles:
+            obstacle_pts = obstacle.get_plottable_points()
+            self.ax.plot(obstacle_pts[:, 0], obstacle_pts[:, 1], obstacle_pts[:, 2], color='#fc4903', marker='.')
 
     def update_plot_on_key_press(self, event) -> None:
         """Update the plot to correspond to different poses along the path.
@@ -103,6 +115,7 @@ class PathVisualizer:
 
         self.ax.cla()
         self.plot_pose()
+        self.plot_obstacles()
         self.figure.canvas.draw()
 
     def read_path_file(self) -> None:
@@ -131,6 +144,14 @@ class PathVisualizer:
                     l_list = [float(i) for i in l.split(', ')]
                     points.append(np.array(l_list))
 
+    def read_obstacles_file(self) -> None:
+        """Read stored obstacle data from the given configuration file."""
+        with open(self.obstacles_file_name) as of:
+            obstacles_data = json.load(of)
+            for obstacle_name in obstacles_data:
+                if obstacle_name == 'metadata':
+                    continue
+                self.obstacles.append(Obstacle.read_from_json(self.obstacles_file_name, obstacle_name))
 
 def parse_cmdline_arguments(cmdline_args: List[str]) -> argparse.ArgumentParser:
     argparser = argparse.ArgumentParser(

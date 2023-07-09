@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """File used to visualize motion planning results.
 """
 import argparse
@@ -5,27 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
 import sys
-
-# Parse command line arguments.
-argparser = argparse.ArgumentParser(
-    prog="Path Visualizer",
-    description="Generate an interactive visualization of a saved motion plan."
-)
-argparser.add_argument(
-    "-f",
-    "--path_file",
-    required=True,
-    action="store",
-    help="File containing the saved motion plan data."
-)
-argparser.add_argument(
-    "-o",
-    "--obstacle_file",
-    required=True,
-    action="store",
-    help="File containing the obstacle data corresponding to the saved motion plan."
-)
-command_line_args = argparser.parse_args()
 
 class PathVisualizer:
     """Class containing various functions used to generate an interactive plot for a saved motion plan.
@@ -151,7 +131,30 @@ class PathVisualizer:
                     l_list = [float(i) for i in l.split(', ')]
                     points.append(np.array(l_list))
 
+
+def parse_cmdline_arguments(cmdline_args: List[str]) -> argparse.ArgumentParser:
+    argparser = argparse.ArgumentParser(
+        prog="Path Visualizer",
+        description="Generate an interactive visualization of a saved motion plan."
+    )
+    argparser.add_argument(
+        "-f",
+        "--path_file",
+        required=True,
+        action="store",
+        help="File containing the saved motion plan data."
+    )
+    argparser.add_argument(
+        "-o",
+        "--obstacle_file",
+        required=True,
+        action="store",
+        help="File containing the obstacle data corresponding to the saved motion plan."
+    )
+    return argparser.parse_args(cmdline_args)
+
 def main():
+    command_line_args = parse_cmdline_arguments(sys.argv[1:])
     print("Given path file: " + command_line_args.path_file)
     print("Given obstacle file: " + command_line_args.obstacle_file)
     path_visualizer = PathVisualizer(command_line_args.path_file, command_line_args.obstacle_file)

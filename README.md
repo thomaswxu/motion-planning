@@ -61,7 +61,7 @@ Visualization is done using `matplotlib` plots in a Python script. Currently, I 
 
 1. Install required Python packages from [`requirements.txt](./visualizer/requirements.txt).
     - The exact command will depend on your system. A common one: `pip install -r visualizer/requirements.txt`
-2. TODO
+2. Run the [visualizer script](./visualizer/path_visualizer.py).
 
 ## Unit Tests
 

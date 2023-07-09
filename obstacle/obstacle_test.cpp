@@ -18,7 +18,7 @@ TEST_CASE("Construction works", "[construction]")
     REQUIRE(ceiling.name() == "ceiling");
     REQUIRE(test_box.name() == "test_box");
 
-    REQUIRE(ceiling.min_y() == -1500);
+    REQUIRE(ceiling.min_y() == -1000);
     REQUIRE(ceiling.max_x() == 1500);
 
     REQUIRE(test_box.min_x() == 0);
@@ -33,7 +33,7 @@ TEST_CASE("Reading multiple obstacles from configuration file works", "[parsing]
   REQUIRE(obstacles[0].name() == "ceiling");
   REQUIRE(obstacles[1].name() == "test_box");
 
-  REQUIRE(obstacles[0].max_y() == 1500);
+  REQUIRE(obstacles[0].max_y() == 1000);
   REQUIRE(obstacles[1].max_y() == -500);
 }
 

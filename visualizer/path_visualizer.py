@@ -31,6 +31,7 @@ class PathVisualizer:
         arm_point_color: What color to draw the arm points and the lines connecting them.
         link_color: What color to draw the link shapes.
         link_alpha: What transparency value to use for drawing the link shapes.
+        EE_link_color: What color to draw the end effector link.
         obstacle_color: What color to draw obstacles.
     """
 
@@ -62,6 +63,7 @@ class PathVisualizer:
 
         self.arm_point_color = '#11b81e'
         self.link_color = '#11b81e'
+        self.EE_link_color = '#15004a'
         self.link_alpha = 0.2
         self.obstacle_color = '#fc4903'
 
@@ -120,16 +122,24 @@ class PathVisualizer:
                 start_pt[i] + link_unit_vector[i] * cylinder_mesh_lengths
               + self.link_radius_mm * np.sin(cylinder_mesh_angles) * perpendicular_vector1[i]
               + self.link_radius_mm * np.cos(cylinder_mesh_angles) * perpendicular_vector2[i] for i in [0, 1, 2]]
-            self.ax.plot_surface(cylinder_X, cylinder_Y, cylinder_Z, color=self.link_color, alpha=self.link_alpha)
+
+            cylinder_color = self.link_color
+            if i == len(arm_points) - 2:
+                cylinder_color = self.EE_link_color
+            self.ax.plot_surface(cylinder_X, cylinder_Y, cylinder_Z, color=cylinder_color, alpha=self.link_alpha)
 
         # Plot spheres around each joint
-        for arm_point in arm_points:
+        for i in range(0, len(arm_points)):
             sphere_discretization_steps = 15j
             u, v = np.mgrid[0:2*np.pi:sphere_discretization_steps, 0:2*np.pi:sphere_discretization_steps]
-            sphere_X = arm_point[0] + self.link_radius_mm * np.sin(u) * np.cos(v)
-            sphere_Y = arm_point[1] + self.link_radius_mm * np.sin(u) * np.sin(v)
-            sphere_Z = arm_point[2] + self.link_radius_mm * np.cos(u)
-            self.ax.plot_wireframe(sphere_X, sphere_Y, sphere_Z, color=self.link_color, alpha=self.link_alpha / 3)
+            sphere_X = arm_points[i][0] + self.link_radius_mm * np.sin(u) * np.cos(v)
+            sphere_Y = arm_points[i][1] + self.link_radius_mm * np.sin(u) * np.sin(v)
+            sphere_Z = arm_points[i][2] + self.link_radius_mm * np.cos(u)
+
+            sphere_color = self.link_color
+            if i == len(arm_points) - 1:
+                sphere_color = self.EE_link_color
+            self.ax.plot_wireframe(sphere_X, sphere_Y, sphere_Z, color=sphere_color, alpha=self.link_alpha / 3)
 
     def plot_pose(self) -> None:
         """Plot a single pose along the path, along with the corresponding environment."""

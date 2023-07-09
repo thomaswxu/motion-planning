@@ -2,6 +2,12 @@ build/
 
 # Saved path files
 *.txt
+!requirements.txt
+
+# Python and pytest stuff
+__pycache__
+pytest
+.pytest_cache
 
 # Prerequisites
 *.d

@@ -1,0 +1,6 @@
+numpy
+matplotlib
+typing
+pytest
+argparse
+sys

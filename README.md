@@ -57,7 +57,7 @@ The guidance in [Arm Parameters](#arm-parameters) applies. Recommended to duplic
 
 ### Visualizing Results
 
-TODO add screenshot
+![example_visualization](./examples/example.gif)
 
 Visualization is done using `matplotlib` plots in a Python script. Currently, I do not know of a straightforward/general way to view the plots directly in Docker. If you know of one, please let me know or make a pull request. In the meantime, to view the interactive visualization plots you have to run the Python script locally.
 

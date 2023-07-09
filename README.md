@@ -13,7 +13,7 @@ The code in this repository assumes a generic 6 DOF robot arm (arm model determi
 
 ### Environment
 
-It is recommended to use a Docker container by following the steps below. It may work outside of the container depending on your system, but no guarantees.
+It is recommended to use a Docker container by following the steps below. The code in this repository may work outside of a container depending on your system, but no guarantees.
 
 1. Install `docker` and `docker-compose`
     - e.g. in Arch-based distros: `yay -S docker docker-compose`
@@ -65,12 +65,16 @@ Visualization is done using `matplotlib` plots in a Python script. Currently, I 
 
 ## Unit Tests
 
-Various unit tests are provided for the libraries in this repository. They currently use the Catch2 framework for C++ code.
+Various unit tests are provided for the libraries in this repository. They currently use the Catch2 framework for C++ code, and the PyTest framework for Python code. Unit tests should be run from within the Docker [environment](#environment).
 
-To run the unit tests:
+To run the C++ unit tests:
   1. Compile the code (e.g. by following the steps [above](#run-an-example).)
   2. Navigate to the `build` directory.
   3. Run any of the unit test executables, e.g. `Vec3Test`.
+
+To run the Python unit tests:
+  1. Navigate to the directory containing the Python code.
+  2. Run `pytest` in that directory.
 
 ## Code Format/Style
 

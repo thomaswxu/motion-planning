@@ -24,7 +24,7 @@ void PlanPath() {
 
   // Planning a single path
   Pose arm_starting_pose(0, 0, 0, 0, 0, 0);
-  Pose arm_goal_pose(30, 30, 0, 100, -100, 30);
+  Pose arm_goal_pose(-120, 30, 0, 100, -100, 30);
   std::vector<Pose> planned_path = map.PlanPath(arm_starting_pose, arm_goal_pose);
 
   // Saving the path for visualization

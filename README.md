@@ -45,14 +45,14 @@ The guidance in [Arm Parameters](#arm-parameters) applies. Recommended to duplic
 ## Usage
 
 1. If not already inside, enter Docker container (see steps [above](#set-up-environment)).
-2. (Skip if done already) Configure the project with CMake:
-    0. Navigate to `motion-planning` directory.
-    1. `mkdir build`
-    2. `cd build`
-    3. `cmake ..`
-3. Build the project:
-    0. Navigate to the `build` directory.
-    1. `cmake --build .`
+2. (Skip if done already) Configure the project with CMake:  
+    1. Navigate to `motion-planning` directory.
+    2. `mkdir build`
+    3. `cd build`
+    4. `cmake ..`
+3. Build the project:  
+    1. Navigate to the `build` directory.
+    2. `cmake --build .`
 4. Run the [example script](./examples/example_motion_plan.cpp).
 
 ### Visualizing Results
